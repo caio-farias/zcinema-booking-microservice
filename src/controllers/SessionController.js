@@ -1,5 +1,6 @@
-const  Session = require('../models/Session')
+const Session = require('../models/Session')
 const Movie = require('../models/Movie')
+const User = require('../models/User')
 const { generateSeats } = require('../utils')
 const { Op } = require('sequelize')
 
@@ -64,6 +65,21 @@ module.exports = {
 
       const sessions = rows
       return res.json({ sessions })
+    } catch (error) {
+      console.log(error)
+      return res.status(500).json({ message: "Ocorreu um erro, tente novamente." })
+    }
+  },
+  async getAllUserSessions(req, res){
+    const { user_id } = req.params
+    try {
+
+      const user = await User.findByPk(user_id)
+
+      if(!user)
+        return res.status(409).json({ message: "Usuário não existe." })
+        
+      return res.json({ sessions: user.sessions })
     } catch (error) {
       console.log(error)
       return res.status(500).json({ message: "Ocorreu um erro, tente novamente." })

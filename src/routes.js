@@ -25,6 +25,11 @@ routes.get(
   MicserviceAuthMiddleware, 
   SessionController.getAllSessions
 )
+routes.get(
+  '/bookings/sessions/:user_id', 
+  MicserviceAuthMiddleware, 
+  SessionController.getAllUserSessions
+)
 routes.patch(
   '/bookings/movies/:movie_id/sessions', 
   [MicserviceAuthMiddleware, CheckQueryMiddleware], 
