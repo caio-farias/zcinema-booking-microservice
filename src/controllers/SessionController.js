@@ -74,12 +74,12 @@ module.exports = {
     const { user_id } = req.params
     try {
 
-      const user = await User.findByPk(user_id)
+      const sessions = await Session.findAndCountAll({ where: { user_id } })
 
-      if(!user)
-        return res.status(409).json({ message: "Usuário não existe." })
+      if(!sessions)
+        return res.status(409).json({ message: "Usuário não possui reservas." })
         
-      return res.json({ sessions: user.sessions })
+      return res.json({ sessions })
     } catch (error) {
       console.log(error)
       return res.status(500).json({ message: "Ocorreu um erro, tente novamente." })
