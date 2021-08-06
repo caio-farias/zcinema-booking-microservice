@@ -1,6 +1,6 @@
 const Session = require('../models/Session')
 const Movie = require('../models/Movie')
-const User = require('../models/User')
+const Booking = require('../models/Booking')
 const { generateSeats } = require('../utils')
 const { Op } = require('sequelize')
 
@@ -74,12 +74,15 @@ module.exports = {
     const { user_id } = req.params
     try {
 
-      const user = await User.findByPk(user_id)
+      const bookings = await Booking.findAll({
+          where: { user_id },
+          include: { association: 'session-booked' }
+        })
 
-      if(!user)
-        return res.status(409).json({ message: "Usuário não existe." })
+      if(!bookings)
+        return res.status(409).json({ message: "Usuário não possui reservas." })
         
-      return res.json({ sessions: user.sessions })
+      return res.json({ bookings })
     } catch (error) {
       console.log(error)
       return res.status(500).json({ message: "Ocorreu um erro, tente novamente." })
