@@ -6,6 +6,7 @@ const { generateSessions } = require('../utils')
 module.exports = {
   async createMovie(req, res) {
     const { 
+      id,
       title, 
       description,
       schedules,
@@ -14,12 +15,13 @@ module.exports = {
     } = req.body
 
     try {
-      const isSameMovie = await Movie.findOne({ where: { title : title } })
+      const isSameMovie = await Movie.findOne({ where: { id } })
       if(isSameMovie){
         return res.status(409).json({ message: "Filme já existe."})
       }
 
-      const movie = await Movie.create({ 
+      const movie = await Movie.create({
+        id,
         title, 
         description, 
         start_date,

@@ -3,14 +3,14 @@ const User = require("../models/User")
 
 module.exports = {
   async createUser(req, res) {
-    const { first_name, last_name, email, profile } = req.body
-
+    const { id, first_name, last_name, email, profile } = req.body
     try {
-      const isSameUser = await User.findOne({ where: { email : email } })
+      const isSameUser = await User.findOne({ where: { id } })
       if(isSameUser){
         return res.status(400).json({ message: "Usuário já existe."})
       }
-      const user = await User.create({ 
+      const user = await User.create({
+        id,
         first_name, 
         last_name,
         email,
