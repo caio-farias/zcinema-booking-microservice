@@ -72,8 +72,8 @@ module.exports = {
   },
   async getAllUserSessions(req, res){
     const { user_id } = req.params
-    try {
 
+    try {
       const bookings = await Booking.findAll({
           where: { user_id },
           include: { association: 'session-booked' }
