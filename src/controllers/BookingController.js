@@ -6,7 +6,7 @@ const { Op } = require('sequelize')
 module.exports = {
   async createBooking(req, res) {
     const { user_id, session_id } = req.params
-    const { seat, session_date, type } = req.body
+    const { seat, type } = req.body
 
     try {
       const session = await Session.findByPk(session_id)
@@ -22,14 +22,14 @@ module.exports = {
         return res.status(409).json({ message: "Usuário não já existe."})
       
 
-      const { price } = session
+      const { price, date } = session
       const booking = await Booking.create({ 
         user_id,
         session_id,
         price,
         type,
         seat,
-        session_date
+        session_date: date
       })
       session.reserve(seat)
       return res.status(201).json(booking)

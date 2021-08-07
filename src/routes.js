@@ -23,8 +23,15 @@ routes.delete('/bookings/movies/:id', MicserviceAuthMiddleware, MovieController.
 routes.get(
   '/bookings/sessions', 
   MicserviceAuthMiddleware, 
+  SessionController.getAllSessionsByDate
+)
+
+routes.get(
+  '/bookings/sessions/all', 
+  MicserviceAuthMiddleware, 
   SessionController.getAllSessions
 )
+
 routes.get(
   '/bookings/sessions/:user_id', 
   MicserviceAuthMiddleware, 

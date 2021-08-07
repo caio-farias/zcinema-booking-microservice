@@ -40,7 +40,7 @@ module.exports = {
       return res.status(500).json({ message: "Ocorreu um erro, tente novamente." })
     }
   },
-  async getAllSessions(req, res){
+  async getAllSessionsByDate(req, res){
     const { movie_title, date, schedule } = req.query
     try {
 
@@ -83,6 +83,16 @@ module.exports = {
         return res.status(409).json({ message: "Usuário não possui reservas." })
         
       return res.json({ bookings })
+    } catch (error) {
+      console.log(error)
+      return res.status(500).json({ message: "Ocorreu um erro, tente novamente." })
+    }
+  },
+  async getAllSessions(req, res){
+    try {
+      const sessions = await Session.findAll({})
+      
+      return res.json({ sessions })
     } catch (error) {
       console.log(error)
       return res.status(500).json({ message: "Ocorreu um erro, tente novamente." })
