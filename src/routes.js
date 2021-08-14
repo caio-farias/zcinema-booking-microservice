@@ -54,6 +54,13 @@ routes.post(
   MicserviceAuthMiddleware, 
   BookingController.createBooking
 )
+
+routes.post(
+  '/bookings/:booking_id',
+  MicserviceAuthMiddleware, 
+  BookingController.confirmSale
+)
+
 routes.get(
   '/bookings',
   [MicserviceAuthMiddleware, CheckFilterQueryMiddleware], 
@@ -74,6 +81,5 @@ routes.delete(
   MicserviceAuthMiddleware, 
   BookingController.deleteBooking
 )
-
 
 module.exports = routes

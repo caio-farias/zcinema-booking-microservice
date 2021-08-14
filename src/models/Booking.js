@@ -1,4 +1,5 @@
 const { Model, DataTypes } = require('sequelize')
+const Session = require('./Session')
 
 class Booking extends Model {
   static associate(models){
@@ -14,6 +15,14 @@ class Booking extends Model {
       onUpdate: 'CASCADE',
       onDelete: 'CASCADE'
     })
+  }
+  async confirmSale(){
+    const session = await Session.findByPk(this.session_id)
+    await session.confirmSale(this.user_id, this.seat)
+    this.status = 'COMPLETED'
+    await Booking.update({
+      status: this.status
+    }, { where: { id: this.id } })
   }
   static init(connection){
     super.init({

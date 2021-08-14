@@ -30,6 +30,14 @@ class Session extends Model {
     },{ where: { id: this.id } })
     return true
   }
+  async confirmSale(user_id, user_seat){
+    this.session_watchers_id.push(user_id)
+    this.sold_seats.push(user_seat)
+    await Session.update({
+      session_watchers_id: this.session_watchers_id,
+      sold_seats: this.sold_seats
+    },{ where: { id: this.id } })
+  }
   static init(connection){
     super.init({
       movie_title:{

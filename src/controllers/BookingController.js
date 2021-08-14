@@ -38,6 +38,18 @@ module.exports = {
       return res.status(500).json({ message: "Ocorreu um erro, tente novamente." })
     }
   },
+  async confirmSale(req, res) {
+    const { booking_id } = req.params
+
+    try {
+      const booking = await Booking.findByPk(booking_id)
+      await booking.confirmSale()
+      return res.json(booking)
+    } catch (error) {
+      console.log(error)
+      return res.status(500).json({ message: "Ocorreu um erro, tente novamente." })
+    }
+  },
   async getAllBookingsByDate(req, res){
     try {
       const { date } = req.query
