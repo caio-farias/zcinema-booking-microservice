@@ -1,4 +1,4 @@
-const  Booking = require('../models/Booking')
+const Booking = require('../models/Booking')
 const Session = require('../models/Session')
 const User = require('../models/User')
 const { Op } = require('sequelize')
@@ -97,7 +97,10 @@ module.exports = {
         where: { 
           user_id: user_id, 
           session_id: session_id 
-        } 
+        },
+        include: {
+          association: 'session-booked'
+        }
       })
       if(!booking)
         return res.status(409).json({ message: "Filme inexistente" })
