@@ -71,6 +71,11 @@ routes.get(
   MicserviceAuthMiddleware, 
   BookingController.getBooking
 )
+routes.get(
+  '/bookings/:booking_id',
+  MicserviceAuthMiddleware, 
+  BookingController.getBookingById
+)
 routes.patch(
   '/bookings/:user_id/:session_id',
   MicserviceAuthMiddleware, 

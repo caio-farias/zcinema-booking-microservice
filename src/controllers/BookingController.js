@@ -43,6 +43,8 @@ module.exports = {
 
     try {
       const booking = await Booking.findByPk(booking_id)
+      if(booking.status == 'COMPLETED')
+        return res.status(409).json({ message: "Reserva já foi completa" })
       await booking.confirmSale()
       return res.json(booking)
     } catch (error) {
@@ -89,6 +91,18 @@ module.exports = {
 
     } catch (error) {
       console.log(error)
+      return res.status(500).json({ message: "Ocorreu um erro, tente novamente." })
+    }
+  },
+  async getBookingById(req, res){
+    const { booking_id } = req.params
+    try{  
+    const booking = await Booking.findByPk(booking_id)
+    if(!booking)
+      return res.status(409).json({ message: "Filme inexistente" })
+        
+      return res.json(booking)
+    } catch (error) {
       return res.status(500).json({ message: "Ocorreu um erro, tente novamente." })
     }
   },
