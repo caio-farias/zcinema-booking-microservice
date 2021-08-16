@@ -159,6 +159,7 @@ module.exports = {
           session_id: session_id 
         }
       })
+
       if(!booking){
         return res.status(409).json({ message: "Filme não existe." })
       }
@@ -166,6 +167,10 @@ module.exports = {
         status: status,
       }, { where: { user_id: user_id, session_id: session_id } })
 
+      if(status == 'CANCELED'){
+        const seat = booking.seat
+        await session.cancelBooking(seat)
+      }
       return res.json(booking)
     } catch (error) {
       return res.status(500).json({ message: "Ocorreu um erro, tente novamente." })

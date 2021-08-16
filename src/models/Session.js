@@ -30,6 +30,18 @@ class Session extends Model {
     },{ where: { id: this.id } })
     return true
   }
+  async cancelBooking(seat){
+    const index = this.reserved_seats.indexOf(seat)
+    if(index <= -1)
+      return
+    
+    this.reserved_seats.splice(index, 1)
+    this.available_seats.push(seat)
+    await Session.update({
+      available_seats: this.available_seats,
+      reserved_seats: this.reserved_seats
+    },{ where: { id: this.id } })
+  }
   async confirmSale(user_id, user_seat){
     this.session_watchers_id.push(user_id)
     this.sold_seats.push(user_seat)
